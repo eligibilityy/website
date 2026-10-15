@@ -1,26 +1,42 @@
 @import "tailwindcss";
+@import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/green.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-*: initial;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --container-content: 640px;
+
+  --color-background: var(--gray-1);
+  --color-foreground: var(--gray-12);
+
+  --color-gray-1: var(--gray-1);
+  --color-gray-2: var(--gray-2);
+  --color-gray-3: var(--gray-3);
+  --color-gray-4: var(--gray-4);
+  --color-gray-5: var(--gray-5);
+  --color-gray-6: var(--gray-6);
+  --color-gray-7: var(--gray-7);
+  --color-gray-8: var(--gray-8);
+  --color-gray-9: var(--gray-9);
+  --color-gray-10: var(--gray-10);
+  --color-gray-11: var(--gray-11);
+  --color-gray-12: var(--gray-12);
+
+  --color-green-9: var(--green-9);
+
+  --font-sans: var(--font-inter);
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.65;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-feature-settings: "cv11", "ss01";
 }
