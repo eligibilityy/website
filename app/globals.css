@@ -4,15 +4,18 @@
 
 :root {
   color-scheme: light;
+  --bubble-blue: #007aff;
+  --bubble-gray: #e9e9eb;
 }
 
 @theme inline {
-  --color-*: initial;
-
   --container-content: 640px;
 
   --color-background: var(--gray-1);
   --color-foreground: var(--gray-12);
+
+  --color-bubble-blue: var(--bubble-blue);
+  --color-bubble-gray: var(--bubble-gray);
 
   --color-gray-1: var(--gray-1);
   --color-gray-2: var(--gray-2);
@@ -35,6 +38,42 @@
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+@layer components {
+  .tail-left::before,
+  .tail-left::after,
+  .tail-right::before,
+  .tail-right::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    height: 20px;
+  }
+  .tail-left::before {
+    left: -7px;
+    width: 20px;
+    background: var(--bubble-gray);
+    border-bottom-right-radius: 16px 14px;
+  }
+  .tail-left::after {
+    left: -26px;
+    width: 26px;
+    background: var(--gray-1);
+    border-bottom-right-radius: 10px;
+  }
+  .tail-right::before {
+    right: -7px;
+    width: 20px;
+    background: var(--bubble-blue);
+    border-bottom-left-radius: 16px 14px;
+  }
+  .tail-right::after {
+    right: -26px;
+    width: 26px;
+    background: var(--gray-1);
+    border-bottom-left-radius: 10px;
+  }
 }
 
 body {
