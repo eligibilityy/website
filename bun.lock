@@ -6,12 +6,14 @@
       "name": "portfolio",
       "dependencies": {
         "@heroicons/react": "^2.2.0",
+        "@prequist/lanyard": "^2.0.0",
         "@radix-ui/colors": "^3.0.0",
         "lucide-react": "^1.59.0",
         "motion": "^14.3.0",
         "next": "16.4.0",
         "react": "19.3.0",
         "react-dom": "19.3.0",
+        "use-lanyard": "^2.0.0",
       },
       "devDependencies": {
         "@tailwindcss/turbopack": "^4",
@@ -193,6 +195,8 @@
     "@nodelib/fs.walk": ["@nodelib/fs.walk@1.2.8", "", { "dependencies": { "@nodelib/fs.scandir": "2.1.5", "fastq": "^1.6.0" } }, "sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg=="],
 
     "@nolyfill/is-core-module": ["@nolyfill/is-core-module@1.0.39", "", {}, "sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA=="],
+
+    "@prequist/lanyard": ["@prequist/lanyard@2.0.0", "", { "dependencies": { "sockittt": "^0.0.3" } }, "sha512-ghlW/0efsJ2da2KVp8WUpXoARaGmMC4cocMM6HrYfnZ8PABfinSnrW6IBMqSOpYhFEnYES3h3apmWOFtQu5kvQ=="],
 
     "@radix-ui/colors": ["@radix-ui/colors@3.0.0", "", {}, "sha512-FUOsGBkHrYJwCSEtWRCIfQbZG7q1e6DgxCIOe1SUQzDe/7rXXeA47s8yCn6fuTNQAj1Zq4oTFi9Yjp3wzElcxg=="],
 
@@ -794,6 +798,8 @@
 
     "side-channel-weakmap": ["side-channel-weakmap@1.0.2", "", { "dependencies": { "call-bound": "^1.0.2", "es-errors": "^1.3.0", "get-intrinsic": "^1.2.5", "object-inspect": "^1.13.3", "side-channel-map": "^1.0.1" } }, "sha512-WPS/HvHQTYnHisLo9McqBHOJk2FkHO/tlpvldyrnem4aeQp4hai3gythswg6p01oSoTl58rcpiFAjF2br2Ak2A=="],
 
+    "sockittt": ["sockittt@0.0.3", "", {}, "sha512-M31w+VviBSZol3Q6uDLmdLuWpkr1qUEizbzWnqMRY2wtZfKDjTiKMSIHZVfmDegCv132UaN6pl48/yPJZmWWzQ=="],
+
     "source-map-js": ["source-map-js@1.2.2", "", {}, "sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw=="],
 
     "stable-hash": ["stable-hash@0.0.5", "", {}, "sha512-+L3ccpzibovGXFK+Ap/f8LOS0ahMrHTf3xu7mMLSpEGU0EO9ucaysSylKo9eRDFNhWve/y275iPmIZ4z39a9iA=="],
@@ -859,6 +865,8 @@
     "update-browserslist-db": ["update-browserslist-db@1.3.4", "", { "dependencies": { "escalade": "^3.2.0", "picocolors": "^1.1.1" }, "peerDependencies": { "browserslist": ">= 4.21.0" }, "bin": { "update-browserslist-db": "cli.js" } }, "sha512-t8wonIOdQyOjtPd2VktlBu6QjTVTks6v8bSi7kd0r2Vll8TK1JYDZtRRdbmCHOAMphkZgrzK+L+vXK4pyZ8t4A=="],
 
     "uri-js": ["uri-js@4.4.1", "", { "dependencies": { "punycode": "^2.1.0" } }, "sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg=="],
+
+    "use-lanyard": ["use-lanyard@2.0.0", "", { "dependencies": { "@prequist/lanyard": "^2.0.0" }, "peerDependencies": { "react": "*", "react-dom": "*" } }, "sha512-neRkEScUN9kRk7/Wb00/lM3focC0WKEL56x0Z/PE9gCziCTxq5yoxXiScF+PhJRdWAm+ibeEGNGXyohGB1cDoA=="],
 
     "which": ["which@2.0.2", "", { "dependencies": { "isexe": "^2.0.0" }, "bin": { "node-which": "./bin/node-which" } }, "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA=="],
 

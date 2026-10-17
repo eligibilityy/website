@@ -5,6 +5,7 @@ import crouie from "@/public/images/crouie.jpg";
 import gradeCalc from "@/public/images/grade-calc.jpg";
 
 import { StaticImageData } from "next/image";
+import type { Types } from "@prequist/lanyard";
 
 export type Sender = "elijah" | "visitor";
 
@@ -29,7 +30,7 @@ export type Message =
   | { kind: "text"; from: Sender; text: string | Inline[] }
   | { kind: "projects"; from: "elijah"; projects: [Project, ...Project[]] }
   | { kind: "card"; from: "elijah"; title: string; items: CardItem[] }
-  | { kind: "presence"; from: "elijah"; discordId: string };
+  | { kind: "presence"; from: "elijah"; discordID: Types.Snowflake };
 
 export const conversation: Message[] = [
   { kind: "text", from: "elijah", text: "Hi! I'm Elijah :)" },
@@ -91,17 +92,18 @@ export const conversation: Message[] = [
       {
         title: "1st Year CS Representative",
         detail: "Junior Philippine Computer Society - DLSL Chapter",
-        date: "August 2026 - Present",
+        date: "2026 – Present",
       },
+      // bettergov repo is gone:(
+      // {
+      //   title: "Contributor",
+      //   detail: "Bettergov.ph",
+      //   date: "2025",
+      // },
       {
         title: "Web Development Head",
         detail: "Association of Computer Enthusiasts - SHS Chapter",
-        date: "2024 - 2025",
-      },
-      {
-        title: "Contributor",
-        detail: "Bettergov.ph",
-        date: "2025",
+        date: "2024 – 2025",
       },
     ],
   },
@@ -113,7 +115,7 @@ export const conversation: Message[] = [
   {
     kind: "presence",
     from: "elijah",
-    discordId: discordID,
+    discordID: discordID,
   },
   {
     kind: "text",

@@ -6,15 +6,15 @@ import { useEffect, useState, type CSSProperties } from "react";
 import type { Project } from "@/data/conversation";
 import { ProjectMenu } from "./ProjectMenu";
 
+import { spring } from "@/lib/motion";
+
 import {
   AnimatePresence,
   MotionConfig,
   useIsPresent,
   motion,
 } from "motion/react";
-import { Grid2X2Icon, GridIcon } from "lucide-react";
-
-const spring = { type: "spring", bounce: 0.18, visualDuration: 0.3 } as const;
+import { Squares2X2Icon } from "@heroicons/react/24/solid";
 
 type ProjectStackProps = {
   projects: [Project, ...Project[]];
@@ -23,69 +23,127 @@ type ProjectStackProps = {
 export function ProjectStack({ projects }: ProjectStackProps) {
   const [first] = projects;
   const [openProject, setOpenProject] = useState<Project | null>(null);
+  const [expanded, setExpanded] = useState(false);
+
+  function handleCardClick(project: Project) {
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    if (isTouch && !expanded) {
+      setExpanded(true);
+      return;
+    }
+    setOpenProject(project);
+  }
 
   return (
     <MotionConfig reducedMotion="user">
       {projects.length === 1 ? (
-        <button type="button" onClick={() => setOpenProject(first)}>
-          <Image
-            src={first.cover}
-            alt={first.alt}
-            placeholder="blur"
-            sizes="240px"
-            className="h-auto w-60 rounded-[18px]"
-          />
+        <button
+          type="button"
+          onClick={() => setOpenProject(first)}
+          className="aspect-4/3 w-70 cursor-pointer self-start"
+        >
+          {openProject?.slug !== first.slug && (
+            <motion.div
+              layoutId={`cover-${first.slug}`}
+              transition={spring}
+              className="relative size-full overflow-hidden shadow-md"
+              style={{ borderRadius: 18 }}
+            >
+              <Image
+                src={first.cover}
+                alt={first.alt}
+                placeholder="blur"
+                fill
+                sizes="280px"
+                className="object-cover"
+              />
+            </motion.div>
+          )}
         </button>
       ) : (
-        <div className="flex flex-col gap-4 self-start py-4">
-          <div className="flex items-center gap-1 text-sm font-medium text-gray-9">
-            <Grid2X2Icon className="size-4.5" /> {projects.length} projects
+        <div className={`flex flex-col gap-4 py-4 self-stretch`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1 text-sm font-medium text-gray-9">
+              <Squares2X2Icon className="size-4.5" /> {projects.length} projects
+            </div>
+            <AnimatePresence>
+              {expanded && (
+                <motion.button
+                  type="button"
+                  onClick={() => setExpanded(false)}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="cursor-pointer text-sm font-medium text-bubble-blue"
+                >
+                  Collapse
+                </motion.button>
+              )}
+            </AnimatePresence>
           </div>
-          <div className="group relative aspect-4/3 w-60 self-start">
+
+          <motion.div
+            layout
+            transition={spring}
+            className={
+              expanded
+                ? "grid w-full grid-cols-2 gap-2 sm:grid-cols-3"
+                : "group relative aspect-4/3 w-70"
+            }
+          >
             {projects.map((project, i) => {
               const dir = i % 2 === 1 ? 1 : -1;
               const style = {
                 "--rest": `rotate(${i * 4 * dir}deg) translateX(${i * 6 * dir}px)`,
                 "--fan": `translateX(${i * 68}%) rotate(${i * 2}deg)`,
-                zIndex: projects.length - i,
               } as CSSProperties;
 
               return (
-                <button
-                  type="button"
+                <motion.div
                   key={project.slug}
-                  onClick={() => setOpenProject(project)}
-                  style={style}
-                  className="absolute inset-0 cursor-pointer [transform:var(--rest)] group-hover:[transform:var(--fan)] transition-transform duration-500 ease-out motion-reduce:transition-none"
+                  layout
+                  transition={spring}
+                  style={{ zIndex: projects.length - i }}
+                  className={
+                    expanded ? "relative aspect-4/3" : "absolute inset-0"
+                  }
                 >
-                  {openProject?.slug !== project.slug && (
-                    <motion.div
-                      layoutId={`cover-${project.slug}`}
-                      transition={spring}
-                      className="relative size-full overflow-hidden shadow-md"
-                      style={{ borderRadius: 18 }}
-                    >
-                      <Image
-                        src={project.cover}
-                        alt={project.alt}
-                        placeholder="blur"
-                        fill
-                        sizes="240px"
-                        className="object-cover"
-                      />
-                    </motion.div>
-                  )}
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => handleCardClick(project)}
+                    style={style}
+                    className={`size-full cursor-pointer transition-transform duration-500 ease-out motion-reduce:transition-none ${expanded ? "" : "transform-(--rest) group-hover:transform-(--fan)"}`}
+                  >
+                    {openProject?.slug !== project.slug && (
+                      <motion.div
+                        layoutId={`cover-${project.slug}`}
+                        transition={spring}
+                        className="relative size-full overflow-hidden shadow-md"
+                        style={{ borderRadius: 18 }}
+                      >
+                        <Image
+                          src={project.cover}
+                          alt={project.alt}
+                          placeholder="blur"
+                          fill
+                          sizes="280px"
+                          className="object-cover"
+                        />
+                      </motion.div>
+                    )}
+                  </button>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       )}
 
       <AnimatePresence>
-        {" "}
         {openProject !== null && (
           <ProjectFocus
+            key={openProject.slug}
             project={openProject}
             onClose={() => setOpenProject(null)}
           />

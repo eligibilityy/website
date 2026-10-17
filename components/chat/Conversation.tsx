@@ -2,6 +2,10 @@ import type { Inline, Message, Sender } from "@/data/conversation";
 import { getPosition, type Position } from "@/lib/chat";
 import { Bubble } from "./Bubble";
 import { ProjectStack } from "./ProjectStack";
+import { CardBubble } from "./CardBubble";
+import { Suspense } from "react";
+import { PresenceLoader } from "./PresenceLoader";
+import { ChatList, ChatItem } from "./ChatList";
 
 type ConversationProps = {
   messages: Message[];
@@ -9,19 +13,19 @@ type ConversationProps = {
 
 export function Conversation({ messages }: ConversationProps) {
   return (
-    <ol aria-label="Conversation" className="flex flex-col">
+    <ChatList>
       {messages.map((message, index) => {
         const position = getPosition(messages, index);
         const startsGroup = position === "first" || position === "single";
         const spacing = index === 0 ? "" : startsGroup ? "mt-4" : "mt-1";
 
         return (
-          <li key={index} className={`flex flex-col ${spacing}`}>
+          <ChatItem key={index} className={`flex flex-col ${spacing}`}>
             <MessageContent message={message} position={position} />
-          </li>
+          </ChatItem>
         );
       })}
-    </ol>
+    </ChatList>
   );
 }
 
@@ -44,9 +48,19 @@ function MessageContent({
     case "projects":
       return <ProjectStack projects={message.projects} />;
     case "card":
-      return <p>TODO: card</p>;
+      return <CardBubble message={message} tail={tail} />;
     case "presence":
-      return <p>TODO: presence</p>;
+      return (
+        <Suspense
+          fallback={
+            <Bubble from="elijah" tail={tail}>
+              Checking Discord...
+            </Bubble>
+          }
+        >
+          <PresenceLoader discordID={message.discordID} tail={tail} />
+        </Suspense>
+      );
     default: {
       const unhandled: never = message;
       return unhandled;
@@ -66,7 +80,7 @@ function InlineText({ text, from }: { text: string | Inline[]; from: Sender }) {
         href={part.href}
         target="_blank"
         rel="noopener noreferrer"
-        className={`${from === "elijah" ? "text-bubble-blue" : "text-white"} underline underline-offset-2`}
+        className={`${from === "elijah" ? "text-bubble-blue" : "text-white"} underline underline-offset-2 `}
       >
         {part.label}
       </a>
