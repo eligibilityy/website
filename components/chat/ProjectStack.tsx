@@ -10,7 +10,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 
-import type { Project } from "@/data/conversation";
+import type { Project } from "@/data/projects";
 import { ProjectMenu } from "./ProjectMenu";
 
 import { spring } from "@/lib/motion";
@@ -254,7 +254,7 @@ function ProjectFocus({
             exit={{ scale: 0.95, transition: { duration: 0.12 } }}
             style={{ transformOrigin: "top left" }}
           >
-            <ProjectMenu project={project} />
+            <ProjectMenu project={project} onNavigate={onClose} />
           </motion.div>
         </div>
       </div>

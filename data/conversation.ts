@@ -1,24 +1,12 @@
 import { discordID } from "@/util/constants";
 
-import wingspan from "@/public/images/wingspan.jpg";
-import crouie from "@/public/images/crouie.jpg";
-import gradeCalc from "@/public/images/grade-calc.jpg";
-
-import { StaticImageData } from "next/image";
 import type { Types } from "@prequist/lanyard";
 
 export type Sender = "elijah" | "visitor";
 
 export type Inline = string | { label: string; href: string };
 
-export type Project = {
-  slug: string;
-  title: string;
-  cover: StaticImageData;
-  alt: string;
-  url?: string;
-  repo?: string;
-};
+import { projects, type NonEmpty, type Project } from "./projects";
 
 export type CardItem = {
   title: string;
@@ -28,7 +16,7 @@ export type CardItem = {
 
 export type Message =
   | { kind: "text"; from: Sender; text: string | Inline[] }
-  | { kind: "projects"; from: "elijah"; projects: [Project, ...Project[]] }
+  | { kind: "projects"; from: "elijah"; projects: NonEmpty<Project> }
   | { kind: "card"; from: "elijah"; title: string; items: CardItem[] }
   | { kind: "presence"; from: "elijah"; discordID: Types.Snowflake };
 
@@ -55,29 +43,7 @@ export const conversation: Message[] = [
   {
     kind: "projects",
     from: "elijah",
-    projects: [
-      {
-        slug: "crouie",
-        title: "Crouie",
-        cover: crouie,
-        alt: "Crouie branding image",
-        repo: "https://github.com/eligibilityy/appbuildersph-hackathon",
-      },
-      {
-        slug: "wingspan",
-        title: "UNT Wingspan",
-        cover: wingspan,
-        alt: "UNT Wingspan Homepage",
-        url: "https://yiliya.studio/projects/wingspan",
-      },
-      {
-        slug: "grade-calc",
-        title: "GWA Calculator",
-        cover: gradeCalc,
-        alt: "Screenshot of GWA Calculator",
-        repo: "https://github.com/eligibilityy/grade-calc/",
-      },
-    ],
+    projects,
   },
   {
     kind: "text",

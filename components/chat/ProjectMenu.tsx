@@ -8,7 +8,7 @@ import {
   Link as LinkIcon,
   type LucideIcon,
 } from "lucide-react";
-import type { Project } from "@/data/conversation";
+import type { Project } from "@/data/projects";
 import { motion } from "motion/react";
 
 type MenuItem =
@@ -23,9 +23,10 @@ type MenuItem =
 
 type ProjectMenuProps = {
   project: Project;
+  onNavigate?: () => void;
 };
 
-export function ProjectMenu({ project }: ProjectMenuProps) {
+export function ProjectMenu({ project, onNavigate }: ProjectMenuProps) {
   const [copied, setCopied] = useState(false);
 
   async function copyLink() {
@@ -117,7 +118,11 @@ export function ProjectMenu({ project }: ProjectMenuProps) {
                     {content}
                   </a>
                 ) : (
-                  <Link href={item.href} className={row}>
+                  <Link
+                    href={item.href}
+                    onNavigate={onNavigate}
+                    className={row}
+                  >
                     {content}
                   </Link>
                 )}
