@@ -2,18 +2,18 @@ import crouie from "@/public/images/crouie.jpg";
 
 ## The problem
 
-TODO: why this project exists and who it's for.
+Crouie is a memory aid for people living with dementia. When someone they know walks in, it recognizes them and speaks a short reminder of who they are. After each visit, it remembers what was talked about, so caregivers can look back later.
 
-## What I did
-
-TODO: your role and the key decisions you made.
+We built it for the AppBuilders PH Hackathon 2026, where the theme was Local AI. Everything runs on a single laptop (face recognition, speech-to-text, the language model and the voice), and it works with Wi-Fi off.
 
 <Image src={crouie} alt="Crouie branding" placeholder="blur" className="rounded-[18px]" />
 
+## What I did
+
+We were a team of four. I built the web app and its UI, handled integration, built the "Ask about your people" panel for caregivers, and wrote the README. My teammates worked on face recognition and memory extraction, the visit flow and spoken briefs, and the voice, microphone and transcription pipeline.
+
 ## Hardest part
 
-TODO
+**Running it all locally.** On a laptop with a 4 GB graphics card, the language model took 13.7 to 18 seconds to write a visit's summary, and saving a visit's memory took about 20 seconds after the visitor left.
 
-## What I learned
-
-TODO
+**Language.** Patients and visitors speak English, Taglish and Tagalog, but there's no offline Tagalog voice: none of Piper's 177 voices are Tagalog or Filipino. Speech recognition also misheard Tagalog when left to detect the language itself. In the end, the spoken reminders are in English.
