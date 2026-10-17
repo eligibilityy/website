@@ -1,18 +1,19 @@
 import type { Inline, Message, Sender } from "@/data/conversation";
 import { getPosition, type Position } from "@/lib/chat";
 import { Bubble } from "./Bubble";
+import { ProjectStack } from "./ProjectStack";
 
-type ConverstaionProps = {
+type ConversationProps = {
   messages: Message[];
 };
 
-export function Converstaion({ messages }: ConverstaionProps) {
+export function Conversation({ messages }: ConversationProps) {
   return (
     <ol aria-label="Conversation" className="flex flex-col">
       {messages.map((message, index) => {
         const position = getPosition(messages, index);
         const startsGroup = position === "first" || position === "single";
-        const spacing = index === 0 ? "" : startsGroup ? "mt-4" : "mt-0.5";
+        const spacing = index === 0 ? "" : startsGroup ? "mt-4" : "mt-1";
 
         return (
           <li key={index} className={`flex flex-col ${spacing}`}>
@@ -41,7 +42,7 @@ function MessageContent({
         </Bubble>
       );
     case "projects":
-      return <p>TODO: projects</p>;
+      return <ProjectStack projects={message.projects} />;
     case "card":
       return <p>TODO: card</p>;
     case "presence":

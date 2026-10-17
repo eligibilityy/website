@@ -15,6 +15,8 @@ export type Project = {
   title: string;
   cover: StaticImageData;
   alt: string;
+  url?: string;
+  repo?: string;
 };
 
 export type CardItem = {
@@ -58,18 +60,21 @@ export const conversation: Message[] = [
         title: "UNT Wingspan",
         cover: wingspan,
         alt: "UNT Wingspan Homepage",
+        url: "https://yiliya.studio/projects/wingspan",
       },
       {
         slug: "crouie",
         title: "Crouie",
         cover: crouie,
         alt: "Crouie branding image",
+        repo: "https://github.com/eligibilityy/appbuildersph-hackathon",
       },
       {
         slug: "grade-calc",
         title: "GWA Calculator",
         cover: gradeCalc,
         alt: "Screenshot of GWA Calculator",
+        repo: "https://github.com/eligibilityy/grade-calc/",
       },
     ],
   },

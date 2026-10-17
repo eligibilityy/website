@@ -1,4 +1,4 @@
-import { Message } from "@/data/conversation";
+import type { Message } from "@/data/conversation";
 
 export type Position = "single" | "first" | "middle" | "last";
 export function getPosition(messages: Message[], index: number): Position {
