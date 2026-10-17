@@ -57,18 +57,18 @@ export const conversation: Message[] = [
     from: "elijah",
     projects: [
       {
-        slug: "wingspan",
-        title: "UNT Wingspan",
-        cover: wingspan,
-        alt: "UNT Wingspan Homepage",
-        url: "https://yiliya.studio/projects/wingspan",
-      },
-      {
         slug: "crouie",
         title: "Crouie",
         cover: crouie,
         alt: "Crouie branding image",
         repo: "https://github.com/eligibilityy/appbuildersph-hackathon",
+      },
+      {
+        slug: "wingspan",
+        title: "UNT Wingspan",
+        cover: wingspan,
+        alt: "UNT Wingspan Homepage",
+        url: "https://yiliya.studio/projects/wingspan",
       },
       {
         slug: "grade-calc",

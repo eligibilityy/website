@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState, type CSSProperties } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
+import { createPortal } from "react-dom";
 
 import type { Project } from "@/data/conversation";
 import { ProjectMenu } from "./ProjectMenu";
@@ -25,6 +32,10 @@ export function ProjectStack({ projects }: ProjectStackProps) {
   const [openProject, setOpenProject] = useState<Project | null>(null);
   const [expanded, setExpanded] = useState(false);
 
+  const closeProject = useCallback(() => {
+    setOpenProject(null);
+  }, []);
+
   function handleCardClick(project: Project) {
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
     if (isTouch && !expanded) {
@@ -38,9 +49,10 @@ export function ProjectStack({ projects }: ProjectStackProps) {
     <MotionConfig reducedMotion="user">
       {projects.length === 1 ? (
         <button
+          aria-haspopup="dialog"
           type="button"
           onClick={() => setOpenProject(first)}
-          className="aspect-4/3 w-70 cursor-pointer self-start"
+          className="aspect-4/3 w-70 cursor-pointer self-start rounded-[18px] outline-none focus-visible:ring-2 focus-visible:ring-bubble-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           {openProject?.slug !== first.slug && (
             <motion.div
@@ -110,10 +122,11 @@ export function ProjectStack({ projects }: ProjectStackProps) {
                   }
                 >
                   <button
+                    aria-haspopup="dialog"
                     type="button"
                     onClick={() => handleCardClick(project)}
                     style={style}
-                    className={`size-full cursor-pointer transition-transform duration-500 ease-out motion-reduce:transition-none ${expanded ? "" : "transform-(--rest) group-hover:transform-(--fan)"}`}
+                    className={`size-full cursor-pointer transition-transform duration-500 ease-out motion-reduce:transition-none rounded-[18px] outline-none focus-visible:ring-2 focus-visible:ring-bubble-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background ${expanded ? "" : "transform-(--rest) group-hover:transform-(--fan) group-focus-visible:transform-(--fan)"}`}
                   >
                     {openProject?.slug !== project.slug && (
                       <motion.div
@@ -145,7 +158,7 @@ export function ProjectStack({ projects }: ProjectStackProps) {
           <ProjectFocus
             key={openProject.slug}
             project={openProject}
-            onClose={() => setOpenProject(null)}
+            onClose={closeProject}
           />
         )}
       </AnimatePresence>
@@ -164,36 +177,50 @@ function ProjectFocus({
 
   const passThrough = isPresent ? "" : "pointer-events-none";
 
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (!isPresent) return;
+
+    const trigger =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    const main = document.querySelector("main");
+    main?.setAttribute("inert", "");
+    document.body.style.overflow = "hidden";
+    dialogRef.current
+      ?.querySelector<HTMLElement>("a[href], button")
+      ?.focus({ preventScroll: true });
 
     function escapeBlur(e: KeyboardEvent) {
       if (e.key === "Escape") {
         onClose();
       }
     }
-
     document.addEventListener("keydown", escapeBlur);
-    document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", escapeBlur);
+      main?.removeAttribute("inert");
       document.body.style.overflow = "";
+      trigger?.focus({ preventScroll: true });
     };
   }, [isPresent, onClose]);
 
-  return (
+  return createPortal(
     <>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className={`fixed inset-0 z-50 bg-white/35 backdrop-blur-2xl backdrop-saturate-150 ${passThrough}`}
+        className={`fixed inset-0 z-50 bg-black/25 ${passThrough}`}
       />
       <div
         role="dialog"
         aria-modal="true"
+        ref={dialogRef}
         aria-label={project.title}
         onClick={onClose}
         className={`fixed inset-0 z-50 flex items-center justify-center p-6 ${passThrough}`}
@@ -218,20 +245,20 @@ function ProjectFocus({
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: -8 }}
+            initial={{ scale: 0.9, y: -8 }}
             animate={{
-              opacity: 1,
               scale: 1,
               y: 0,
               transition: { ...spring, delay: 0.08 },
             }}
-            exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.12 } }}
+            exit={{ scale: 0.95, transition: { duration: 0.12 } }}
             style={{ transformOrigin: "top left" }}
           >
             <ProjectMenu project={project} />
           </motion.div>
         </div>
       </div>
-    </>
+    </>,
+    document.body,
   );
 }

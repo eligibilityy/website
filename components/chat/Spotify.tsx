@@ -66,7 +66,7 @@ function AlbumArt({ src, alt }: { src: string; alt: string }) {
 
   return (
     <motion.div
-      className={`absolute inset-0 ${isPresent ? "z-10" : "z-0"}`}
+      className={`absolute inset-0 border-bubble-gray border border-b-0 ${isPresent ? "z-10" : "z-0"}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: loaded ? 1 : 0 }}
       exit={{ opacity: 0, transition: { delay: 0.4, duration: 0.2 } }}
