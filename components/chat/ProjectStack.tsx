@@ -31,10 +31,23 @@ export function ProjectStack({ projects }: ProjectStackProps) {
   const [first] = projects;
   const [openProject, setOpenProject] = useState<Project | null>(null);
   const [expanded, setExpanded] = useState(false);
+  const [leaving, setLeaving] = useState(false);
 
   const closeProject = useCallback(() => {
     setOpenProject(null);
   }, []);
+
+  // Leaving via "View project": close without the shared-element animation,
+  // since Next hides this page mid-animation and would replay it on return.
+  const leaveToProject = useCallback(() => {
+    setLeaving(true);
+    setOpenProject(null);
+  }, []);
+
+  function openFocus(project: Project) {
+    setLeaving(false);
+    setOpenProject(project);
+  }
 
   function handleCardClick(project: Project) {
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
@@ -42,7 +55,7 @@ export function ProjectStack({ projects }: ProjectStackProps) {
       setExpanded(true);
       return;
     }
-    setOpenProject(project);
+    openFocus(project);
   }
 
   return (
@@ -51,12 +64,12 @@ export function ProjectStack({ projects }: ProjectStackProps) {
         <button
           aria-haspopup="dialog"
           type="button"
-          onClick={() => setOpenProject(first)}
+          onClick={() => openFocus(first)}
           className="aspect-4/3 w-70 cursor-pointer self-start rounded-[18px] outline-none focus-visible:ring-2 focus-visible:ring-bubble-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           {openProject?.slug !== first.slug && (
             <motion.div
-              layoutId={`cover-${first.slug}`}
+              layoutId={leaving ? undefined : `cover-${first.slug}`}
               transition={spring}
               className="relative size-full overflow-hidden shadow-md"
               style={{ borderRadius: 18 }}
@@ -130,7 +143,9 @@ export function ProjectStack({ projects }: ProjectStackProps) {
                   >
                     {openProject?.slug !== project.slug && (
                       <motion.div
-                        layoutId={`cover-${project.slug}`}
+                        layoutId={
+                          leaving ? undefined : `cover-${project.slug}`
+                        }
                         transition={spring}
                         className="relative size-full overflow-hidden shadow-md"
                         style={{ borderRadius: 18 }}
@@ -159,6 +174,7 @@ export function ProjectStack({ projects }: ProjectStackProps) {
             key={openProject.slug}
             project={openProject}
             onClose={closeProject}
+            onNavigate={leaveToProject}
           />
         )}
       </AnimatePresence>
@@ -169,9 +185,11 @@ export function ProjectStack({ projects }: ProjectStackProps) {
 function ProjectFocus({
   project,
   onClose,
+  onNavigate,
 }: {
   project: Project;
   onClose: () => void;
+  onNavigate: () => void;
 }) {
   const isPresent = useIsPresent();
 
@@ -253,8 +271,9 @@ function ProjectFocus({
             }}
             exit={{ scale: 0.95, transition: { duration: 0.12 } }}
             style={{ transformOrigin: "top left" }}
+            className="w-fit"
           >
-            <ProjectMenu project={project} onNavigate={onClose} />
+            <ProjectMenu project={project} onNavigate={onNavigate} />
           </motion.div>
         </div>
       </div>

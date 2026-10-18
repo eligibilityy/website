@@ -2,6 +2,7 @@
 
 import { useLanyard, type Types } from "use-lanyard";
 import { statusDot, describePresence } from "@/lib/presence";
+import { useHydrated } from "@/lib/useHydrated";
 import { Bubble } from "./Bubble";
 import { Spotify } from "./Spotify";
 
@@ -16,7 +17,9 @@ export function PresenceBubble({
   initialData,
   tail,
 }: PresenceBubbleProps) {
-  const presence = useLanyard(discordID, { initialData });
+  const live = useLanyard(discordID, { initialData });
+  const hydrated = useHydrated();
+  const presence = hydrated ? live : initialData;
 
   const spotify = presence?.spotify ?? null;
 
