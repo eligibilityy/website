@@ -3,7 +3,12 @@ import Image from "next/image";
 import { TextLink } from "@/components/TextLink";
 
 const components: MDXComponents = {
-  h2: (props) => <h2 {...props} className="mt-6 font-medium text-gray-12" />,
+  h2: (props) => (
+    <h2
+      {...props}
+      className="mt-6 text-[17px] font-semibold tracking-[-0.01em] text-gray-12"
+    />
+  ),
   h3: (props) => <h3 {...props} className="mt-4 font-medium text-gray-12" />,
   p: (props) => <p {...props} className="text-gray-11" />,
   ul: (props) => (

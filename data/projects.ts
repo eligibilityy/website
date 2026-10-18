@@ -27,13 +27,13 @@ export const projects: NonEmpty<Project> = [
     title: "UNT Wingspan",
     summary:
       "The website for UNT Wingspan, a student-run undergraduate research journal at the University of North Texas.",
-    year: "2025",
+    year: "2026",
     role: "Design and Development",
     status: "archived",
     stack: ["Framer", "Figma", "TypeScript"],
     cover: wingspan,
     alt: "UNT Wingspan Homepage",
-    url: "https://yiliya.studio/projects/wingspan",
+    url: "https://untwingspan.org",
   },
   {
     slug: "crouie",
@@ -75,4 +75,9 @@ export const projects: NonEmpty<Project> = [
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((project) => project.slug === slug);
+}
+
+export function getNextProject(slug: string): Project {
+  const index = projects.findIndex((project) => project.slug === slug);
+  return projects[(index + 1) % projects.length];
 }

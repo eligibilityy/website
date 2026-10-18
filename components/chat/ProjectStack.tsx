@@ -126,7 +126,7 @@ export function ProjectStack({ projects }: ProjectStackProps) {
                     type="button"
                     onClick={() => handleCardClick(project)}
                     style={style}
-                    className={`size-full cursor-pointer transition-transform duration-500 ease-out motion-reduce:transition-none rounded-[18px] outline-none focus-visible:ring-2 focus-visible:ring-bubble-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background ${expanded ? "" : "transform-(--rest) group-hover:transform-(--fan) group-focus-visible:transform-(--fan)"}`}
+                    className={`size-full cursor-pointer transition-transform duration-500 ease-out motion-reduce:transition-none rounded-[18px] outline-none focus-visible:ring-2 focus-visible:ring-bubble-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background ${expanded ? "" : "transform-(--rest) group-hover:transform-(--fan) group-has-focus-visible:transform-(--fan)"}`}
                   >
                     {openProject?.slug !== project.slug && (
                       <motion.div

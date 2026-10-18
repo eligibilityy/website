@@ -10,7 +10,8 @@ const interTight = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  title: "Elijah Panique",
+  metadataBase: new URL("https://yiliya.studio"),
+  title: { default: "Elijah Panique", template: "%s · Elijah Panique" },
   description: "Aspiring Design Engineer/Full-stack Developer",
 };
 
