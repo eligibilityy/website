@@ -97,7 +97,7 @@ export const conversation: Message[] = [
       ", ",
       { label: "linkedin", href: "https://www.linkedin.com/in/yiliya" },
       " or ",
-      { label: "twitter (inactive)", href: "https://twitter.com/liya_iya" },
+      { label: "twitter (inactive)", href: "https://twitter.com/yiliya_iya" },
     ],
   },
 ];

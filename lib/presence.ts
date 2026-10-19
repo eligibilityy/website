@@ -23,8 +23,8 @@ export function describePresence(presence: Types.Presence): string {
       : `I'm currently on ${playing.name}`;
   }
 
-  const custom = presence.activities.find((a) => a.type === 4);
-  if (custom !== undefined && custom.state) return custom.state;
+  // const custom = presence.activities.find((a) => a.type === 4);
+  // if (custom !== undefined && custom.state) return custom.state;
 
   const fallback: Record<Types.DiscordStatus, string> = {
     online: "I'm online doing something",
